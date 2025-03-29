@@ -4,12 +4,12 @@ import mongoose from 'mongoose';
 const transactionSchema = new mongoose.Schema({
     senderId: {
         type: mongoose.Schema.Types.ObjectId, // Reference to User model
-        ref: 'users',
+        ref: 'User',
         required: true
     },
     receiverId: {
         type: mongoose.Schema.Types.ObjectId, // Reference to User model
-        ref: 'users',
+        ref: 'User',
         required: true
     },
     amount: {

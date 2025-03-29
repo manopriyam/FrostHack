@@ -91,6 +91,7 @@ export const generateTransactionPDF = async (req, res) => {
                 doc.text(`   From: ${sender} (${tx.senderId.username})`);
                 doc.text(`   To: ${receiver} (${tx.receiverId.username})`);
                 doc.text(`   Date: ${new Date(tx.createdAt).toLocaleString()}`);
+                doc.text(`   Category: ${tx.category}`);
                 doc.moveDown();
             });
         }
@@ -101,3 +102,4 @@ export const generateTransactionPDF = async (req, res) => {
         res.status(500).json({ message: 'Error generating PDF', error: error.message });
     }
 };
+
