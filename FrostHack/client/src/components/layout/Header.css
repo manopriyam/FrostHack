@@ -1,0 +1,51 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: var(--grey-dark);
+    font-size: 14px;
+}
+
+.header .logo a {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--primary-color); 
+    text-decoration: none;
+    font-family: "EB Garamond", serif; 
+}
+
+.logo {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon {
+    height: 30px;
+    width: 30px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-right a {
+    color: var(--white);
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.header-right > * {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin: 0px 10px;
+}
+
