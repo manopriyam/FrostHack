@@ -1,7 +1,0 @@
-./node_modules/
-
-./FrostHack/server/node_modules/
-./FrostHack/client/node_modules/
-
-./FrostHack/server/.env
-./FrostHack/client/.env
