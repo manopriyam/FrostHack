@@ -22,9 +22,9 @@ const transactionSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        default: "unlabelled",
-        set: (v) => v.toLowerCase()
-    }    
+        enum: ["food", "rent", "transport", "entertainment", "utilities", "unlabelled"],
+        default: "unlabelled"
+    }   
 }, {timestamps: true});
 
 

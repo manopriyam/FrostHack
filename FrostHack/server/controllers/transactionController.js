@@ -8,34 +8,49 @@ export const transferMoney = async (req, res) => {
 
     try {
         session.startTransaction();
-        const { amount, to } = req.body;
+        const { amount, to, category = "unlabelled" } = req.body;
+
+        // Validate category
+        const allowedCategories = ["food", "rent", "transport", "entertainment", "utilities", "unlabelled"];
+        if (!allowedCategories.includes(category)) {
+            await session.abortTransaction();
+            return res.status(400).json({ message: "Invalid category" });
+        }
 
         const account = await Account.findOne({ userId: req.userId }).session(session);
         if (!account || account.balance < amount) {
             await session.abortTransaction();
-            return res.status(400).json({ message: 'Insufficient balance' });
+            return res.status(400).json({ message: "Insufficient balance" });
         }
 
         const toAccount = await Account.findOne({ userId: to }).session(session);
         if (!toAccount) {
             await session.abortTransaction();
-            return res.status(400).json({ message: 'Invalid account' });
+            return res.status(400).json({ message: "Invalid account" });
         }
 
+        // Deduct from sender's balance
         await Account.updateOne({ userId: req.userId }, { $inc: { balance: -amount } }).session(session);
+
+        // Add to receiver's balance
         await Account.updateOne({ userId: to }, { $inc: { balance: amount } }).session(session);
 
-        await Transaction.create([{ senderId: req.userId, receiverId: to, amount }], { session });
+        // Create transaction record with category
+        await Transaction.create(
+            [{ senderId: req.userId, receiverId: to, amount, category }],
+            { session }
+        );
 
         await session.commitTransaction();
-        res.json({ message: 'Transfer successful' });
+        res.json({ message: "Transfer successful", category });
     } catch (error) {
         await session.abortTransaction();
-        res.status(500).json({ message: 'Transfer failed due to an error', error: error.message });
+        res.status(500).json({ message: "Transfer failed due to an error", error: error.message });
     } finally {
         session.endSession();
     }
 };
+
 
 export const generateTransactionPDF = async (req, res) => {
     try {
