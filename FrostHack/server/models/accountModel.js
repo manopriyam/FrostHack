@@ -16,4 +16,4 @@ const accountSchema = new mongoose.Schema({
 
 
 // exporting the mongodb model created from the given exampleSchema
-export default mongoose.model('accounts', accountSchema);
+export default mongoose.model('Account', accountSchema);

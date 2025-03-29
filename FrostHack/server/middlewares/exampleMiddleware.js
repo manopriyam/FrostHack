@@ -1,19 +1,18 @@
-// import from files
-import exampleModel from '../models/exampleModel.js';
+import jwt from 'jsonwebtoken';
 
+const JWT_SECRET = process.env.JWT_SECRET;
 
-// test middleware
-export const testMiddleware = async (req, res, next) => {
+export const authMiddleware = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ message: 'No token provided' });
+    }
+    const token = authHeader.split(' ')[1];
     try {
-        console.log("Success in Test Middleware!");
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.userId = decoded.userId;
         next();
     } catch (error) {
-        console.log(`Error: ${error}\n`.red);
-        return res.status(401).send({
-            success: false,
-            message: "Error in Test Middleware!",
-            error
-        })
+        return res.status(403).json({ message: 'Invalid token' });
     }
-}
-
+};

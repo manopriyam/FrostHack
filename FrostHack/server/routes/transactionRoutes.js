@@ -1,18 +1,10 @@
-// import from libraries
-import express from 'express'; 
+import express from 'express';
+import { authMiddleware } from '../middleware/auth.js';
+import { transferMoney, generateTransactionPDF } from '../controllers/transactionController.js';
 
-
-// import from files
-import { testTransactions } from '../controllers/transactionsController.js';
-
-
-// express router
 const router = express.Router();
 
+router.post('/transfer', authMiddleware, transferMoney);
+router.get('/transactions/pdf', authMiddleware, generateTransactionPDF);
 
-// routes
-router.post('/test', testTransactions);
-
-
-// export routes
-export default router;  
+export default router;

@@ -1,4 +1,3 @@
-// importing necessary libraries
 import mongoose from 'mongoose';
 
 
@@ -20,9 +19,14 @@ const transactionSchema = new mongoose.Schema({
     createdAt: { 
         type: Date, 
         default: Date.now 
-    }
+    },
+    category: {
+        type: String,
+        default: "unlabelled",
+        set: (v) => v.toLowerCase()
+    }    
 }, {timestamps: true});
 
 
 // exporting the mongodb model created from the given exampleSchema
-export default mongoose.model('transactions', transactionSchema);
+export default mongoose.model('Transaction', transactionSchema);
