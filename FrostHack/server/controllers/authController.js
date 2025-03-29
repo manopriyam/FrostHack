@@ -1,4 +1,5 @@
-import { User, Account } from '../db.js'; 
+import User from '../models/userModel.js' 
+import Account from '../models/accountModel.js'
 import jwt from 'jsonwebtoken';
 import { signupSchema, signinSchema, updateSchema } from '../validators/authValidator.js';
 
