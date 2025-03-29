@@ -3,7 +3,6 @@ import Account from '../models/accountModel.js'
 import jwt from 'jsonwebtoken';
 import { signupSchema, signinSchema, updateSchema } from '../validators/authValidator.js';
 
-const JWT_SECRET = process.env.JWT_SECRET;
 
 export const signup = async (req, res) => {
     try {
@@ -26,7 +25,7 @@ export const signup = async (req, res) => {
         
         await Account.create({ userId: user._id, balance: 10000 + Math.random() * 10000 });
 
-        const token = jwt.sign({ userId: user._id }, JWT_SECRET);
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
         res.json({ message: 'User created successfully', token });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
@@ -45,7 +44,7 @@ export const signin = async (req, res) => {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        const token = jwt.sign({ userId: user._id }, JWT_SECRET);
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
         res.json({ token });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
